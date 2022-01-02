@@ -5,7 +5,7 @@ from django.core.files import File
 from django.db import models
 
 class Category(models.Model):
-    """модель категории продукта"""
+    """модель категории """
     name = models.CharField(max_length=255)
     slug = models.SlugField()
 
@@ -39,11 +39,13 @@ class Product(models.Model):
         return f'/{self.category.slug}/{self.slug}/'
     
     def get_image(self):
+        """загрузка изображения, если есть"""
         if self.image:
             return 'http://127.0.0.1:8000' + self.image.url
         return ''
 
     def get_thumbnail(self):
+        """загрузка миниатюрыБ если нету, создает из изображения"""
         if self.thumbnail:
             return 'http://127.0.0.1:8000' + self.thumbnail.url
         else:
@@ -55,6 +57,7 @@ class Product(models.Model):
                 return ''
 
     def make_thumbnail(self, image, size=(300, 200)):
+        """создание миниатюры из изображения"""
         img = Image.open(image)
         img.convert('RGB')
         img.thumbnail(size)
