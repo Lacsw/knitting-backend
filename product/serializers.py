@@ -1,3 +1,5 @@
+from django.db.models import fields
+from django.db.models.fields import files
 from rest_framework import serializers
 
 from .models import Category, Product
@@ -13,4 +15,17 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "get_image",
             "get_thumbnail",
+        )
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "name",
+            "products",
+            "get_absolute_url",
         )
